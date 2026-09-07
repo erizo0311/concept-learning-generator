@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人学习资料：Agent（智能体）</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --card: #ffffff; --ink: #1f2328; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #eff6ff; --line: #e5e7eb;
+    --green: #059669; --orange: #d97706; --red: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.hero { background:linear-gradient(135deg,#2563eb,#3b82f6); color:#fff; padding:36px 30px; border-radius:16px; margin-bottom:28px; }
+  header.hero h1 { margin:0 0 8px; font-size:30px; }
+  header.hero p.sub { margin:0; opacity:.92; font-size:15px; }
+  header.hero .tag { display:inline-block; background:rgba(255,255,255,.22); padding:4px 12px; border-radius:999px; font-size:13px; margin-top:14px; }
+  nav.toc { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin-bottom:28px; }
+  nav.toc h2 { margin:0 0 10px; font-size:15px; color:var(--muted); }
+  nav.toc a { display:inline-block; margin:4px 6px 4px 0; padding:4px 12px; background:var(--accent-soft); color:var(--accent); border-radius:999px; font-size:13px; text-decoration:none; }
+  section.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin-bottom:22px; }
+  .badge { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12px; font-weight:600; margin-bottom:12px; }
+  .b-goal{background:#eff6ff;color:#2563eb;} .b-core{background:#ecfdf5;color:#059669;}
+  .b-scene{background:#fffbeb;color:#d97706;} .b-confuse{background:#fef2f2;color:#dc2626;}
+  section.card h2 { margin:0 0 14px; font-size:21px; }
+  section.card h3 { margin:20px 0 8px; font-size:16px; color:#111827; }
+  ul,ol { margin:8px 0; padding-left:22px; }
+  li { margin:6px 0; }
+  code { background:#f3f4f6; padding:2px 6px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; }
+  .note { background:#f9fafb; border-left:4px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:14px; }
+  .mermaidbox { background:#f9fafb; border-radius:12px; padding:18px; overflow-x:auto; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:14px 0; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f9fafb; font-weight:600; }
+  .selfcheck { background:var(--card); border:1px dashed var(--accent); border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; }
+  .src a { color:var(--accent); word-break:break-all; }
+  footer { text-align:center; color:var(--muted); font-size:13px; margin-top:30px; }
+  .q { background:#f9fafb; border-radius:8px; padding:12px 16px; margin:10px 0; }
+  .q .a { color:var(--green); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🤖 Agent（智能体）</h1>
+  <p class="sub">个人学习资料 · 概念学习资料生成器产出</p>
+  <span class="tag">第 1 份 / 共 3 份</span>
+</header>
+
+<nav class="toc">
+  <h2>📑 目录</h2>
+  <a href="#goal">1 学习目标</a>
+  <a href="#core">2 核心问题</a>
+  <a href="#explain">3 结构化解释</a>
+  <a href="#scene">4 应用案例</a>
+  <a href="#confuse">5 概念辨析</a>
+  <a href="#quiz">6 自测问题</a>
+  <a href="#src">7 参考来源</a>
+</nav>
+
+<!-- 1 学习目标 -->
+<section class="card" id="goal">
+  <span class="badge b-goal">① 学习目标</span>
+  <h2>学完你应该能</h2>
+  <ul>
+    <li><b>准确定义</b> Agent，说出它与"工作流（Workflow）"的本质区别。</li>
+    <li><b>拆解</b> 一个 Agent 的核心组成（感知 → 规划 → 行动 → 反思），画出它的循环。</li>
+    <li><b>判断</b> 在什么场景该用 Agent、什么场景不该用，避免"到处造 Agent"。</li>
+  </ul>
+</section>
+
+<!-- 2 核心问题 -->
+<section class="card" id="core">
+  <span class="badge b-goal">② 核心问题</span>
+  <h2>理解 Agent 必须先回答的 3 个问题</h2>
+  <ol>
+    <li>Agent 和「一段写死的程序」到底差在哪？自主性从哪里来？</li>
+    <li>Agent 的"感知—规划—行动—反思"循环是如何运转的？</li>
+    <li>为什么说「先工作流、后 Agent」？什么信号说明"确实该上 Agent 了"？</li>
+  </ol>
+</section>
+
+<!-- 3 结构化解释 -->
+<section class="card" id="explain">
+  <span class="badge b-core">③ 结构化解释</span>
+  <h2>我对 Agent 的理解</h2>
+
+  <div class="note">💡 <b>我的理解一句话</b>：Agent 是让大模型<b>自己决定下一步做什么</b>的 AI——它根据目标、环境和工具反馈，动态地规划、调工具、看结果、再调整，直到完成任务，而不是按人写死的路径一步步走。</div>
+
+  <h3>核心区别：Workflow vs Agent</h3>
+  <p>Anthropic 官方把这类系统分成两条路线，这是我理解 Agent 的关键入口：</p>
+  <table>
+    <tr><th>类型</th><th>谁来决定路径</th><th>特点</th><th>适合</th></tr>
+    <tr><td><b>Workflow（工作流）</b></td><td>人预先写好的代码</td><td>可预测、稳定、可控</td><td>路径明确的固定任务</td></tr>
+    <tr><td><b>Agent（智能体）</b></td><td>大模型动态决策</td><td>灵活、自适应、能处理意外</td><td>开放性、无法硬编码路径的任务</td></tr>
+  </table>
+
+  <h3>Agent 的四段循环（我的简化模型）</h3>
+  <div class="mermaidbox">
+  <pre>
+  ┌─────────────┐
+  │ ① 感知 (Perceive)  │  接收目标 + 当前环境/上下文
+  └──────┬──────┘
+         ↓
+  ┌─────────────┐
+  │ ② 规划 (Plan)     │  拆解目标 → 形成行动步骤
+  └──────┬──────┘
+         ↓
+  ┌─────────────┐
+  │ ③ 行动 (Act)      │  调用工具(搜索/代码/API)执行
+  └──────┬──────┘
+         ↓
+  ┌─────────────┐
+  │ ④ 反思 (Reflect)  │  观察结果 → 判断是否达成 / 修正
+  └──────┬──────┘
+         ↓
+        ↺ 回到 ②，直到完成
+  </pre>
+  </div>
+
+  <h3>它由什么组成</h3>
+  <ul>
+    <li><b>大模型大脑</b>：负责推理、规划、决定调哪个工具。</li>
+    <li><b>工具（Tools / ACI）</b>：搜索、读文件、写代码、调 API——模型能否"做事"靠它们。</li>
+    <li><b>环境反馈</b>：工具返回的结果，驱动下一步决策。</li>
+    <li><b>上下文窗口</b>：承载目标、历史步骤、工具结果——是 Agent 的"工作记忆"（详见第 2 份资料）。</li>
+    <li><b>记忆（可选）</b>：跨会话/长任务保存状态。</li>
+  </ul>
+
+  <div class="note">⚙️ <b>关键点</b>：Anthropic 强调"简单至上"——真正好用的 Agent 往往只用几个简单的可组合模式，而不是套一个庞大框架。它同时提醒：<b>工具接口（ACI）要像设计人机界面一样用心设计</b>，工具文档写得越清楚，模型越会用。</div>
+</section>
+
+<!-- 4 应用案例 -->
+<section class="card" id="scene">
+  <span class="badge b-scene">④ 应用案例</span>
+  <h2>一个具体场景：AI 编程助手</h2>
+  <p>想象一个"自动修 bug"的 Agent：</p>
+  <ol>
+    <li>你丢给它一句"这个 Python 脚本报错了，帮我修好"。</li>
+    <li><b>感知</b>：它读取错误堆栈 + 相关代码文件。</li>
+    <li><b>规划</b>：判断可能是变量名错误，决定"先读这一行的上下文，再搜索该函数的定义"。</li>
+    <li><b>行动</b>：调用工具——读文件、用 grep 搜索、甚至跑一遍测试。</li>
+    <li><b>反思</b>：看到测试变绿，确认问题解决；如果还报错，就回到规划换一种思路。</li>
+  </ol>
+  <p>过程完全由模型自主推进，无需你提前写清每一步——这正是 Agent 的价值：<b>开放性任务、路径不确定</b>。</p>
+</section>
+
+<!-- 5 概念辨析 -->
+<section class="card" id="confuse">
+  <span class="badge b-confuse">⑤ 概念辨析</span>
+  <h2>容易混淆的地方</h2>
+  <table>
+    <tr><th>混淆项</th><th>它 ≠ 什么</th><th>边界在哪</th></tr>
+    <tr><td><b>Agent vs 工作流</b></td><td>不是所有 AI 功能都是 Agent</td><td>路径由谁定：人写死=工作流，模型定=Agent</td></tr>
+    <tr><td><b>Agent vs 机器人/RPA</b></td><td>不是"会自动化"就是 Agent</td><td>RPA 按固定脚本操作；Agent 靠推理动态决策</td></tr>
+    <tr><td><b>Agent vs 普通对话</b></td><td>不是能聊天就叫 Agent</td><td>Agent 会<b>调用工具、采取行动</b>并基于反馈迭代；对话只是输出文字</td></tr>
+    <tr><td><b>"全自主"误区</b></td><td>不是 Agent 就该无人监督</td><td>现实里常需<b>人工介入/暂停</b>点（human-in-the-loop）</td></tr>
+  </table>
+  <div class="note">⚠️ <b>使用边界</b>：任务简单、步骤固定时，强行上 Agent 只会增加成本、延迟和不可控风险。Anthropic 的原话是"从最简单的开始，复杂了再逐步加"。<b>先工作流，后 Agent</b>。</div>
+</section>
+
+<!-- 6 自测问题 -->
+<section class="card" id="quiz">
+  <span class="badge b-core">⑥ 自测问题</span>
+  <h2>检验是否真懂</h2>
+  <div class="q"><b>Q1</b> 一句话说明 Workflow 和 Agent 的本质区别。<div class="a">✔ 区别在"谁决定路径"：Workflow 由人写死的代码决定，Agent 由模型根据上下文动态决策。</div></div>
+  <div class="q"><b>Q2</b> Agent 的典型四段循环是什么？<div class="a">✔ 感知→规划→行动→反思，循环往复直到完成。</div></div>
+  <div class="q"><b>Q3</b> 什么信号说明"这个任务确实该用 Agent"？<div class="a">✔ 任务开放式、路径无法硬编码、需要模型不断调工具并依据反馈修正。</div></div>
+  <div class="q"><b>Q4</b> "AI 会聊天的界面就是 Agent"——对还是错？<div class="a">✔ 错。Agent 必须能调用工具、采取行动并依据反馈迭代，仅输出文字不构成 Agent。</div></div>
+</section>
+
+<!-- 7 参考来源 -->
+<section class="card" id="src">
+  <span class="badge b-goal">⑦ 参考来源</span>
+  <h2>可核查的资料来源</h2>
+  <ul class="src">
+    <li>Anthropic《Building effective agents》— 系统讲 Workflow vs Agent 与设计模式 <br><a href="https://www.anthropic.com/engineering/building-effective-agents">https://www.anthropic.com/engineering/building-effective-agents</a></li>
+    <li>Shunyu Yao 等《ReAct: Synergizing Reasoning and Acting in Language Models》(arXiv 2210.03629) — "推理与行动交织"的开创论文 <br><a href="https://arxiv.org/abs/2210.03629">https://arxiv.org/abs/2210.03629</a></li>
+  </ul>
+  <div class="selfcheck">✅ <b>来源核查记录</b>：以上链接已逐条打开核实真实可访问（Anthropic 官方博客、arXiv 论文页），内容用于佐证"Workflow vs Agent 区别"与"Agent 循环机制"。未使用任何被拦截/伪造的链接。</div>
+</section>
+
+<footer>个人作业 1 · 概念学习资料生成器 · 由 erizo0311 生成 · 2026-09-07</footer>
+</div>
+</body>
+</html>

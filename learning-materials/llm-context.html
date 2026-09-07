@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人学习资料：大模型的上下文（LLM Context）</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --card: #ffffff; --ink: #1f2328; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #eff6ff; --line: #e5e7eb;
+    --green: #059669; --orange: #d97706; --red: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.hero { background:linear-gradient(135deg,#7c3aed,#a855f7); color:#fff; padding:36px 30px; border-radius:16px; margin-bottom:28px; }
+  header.hero h1 { margin:0 0 8px; font-size:30px; }
+  header.hero p.sub { margin:0; opacity:.92; font-size:15px; }
+  header.hero .tag { display:inline-block; background:rgba(255,255,255,.22); padding:4px 12px; border-radius:999px; font-size:13px; margin-top:14px; }
+  nav.toc { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin-bottom:28px; }
+  nav.toc h2 { margin:0 0 10px; font-size:15px; color:var(--muted); }
+  nav.toc a { display:inline-block; margin:4px 6px 4px 0; padding:4px 12px; background:var(--accent-soft); color:var(--accent); border-radius:999px; font-size:13px; text-decoration:none; }
+  section.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin-bottom:22px; }
+  .badge { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12px; font-weight:600; margin-bottom:12px; }
+  .b-goal{background:#eff6ff;color:#2563eb;} .b-core{background:#ecfdf5;color:#059669;}
+  .b-scene{background:#fffbeb;color:#d97706;} .b-confuse{background:#fef2f2;color:#dc2626;}
+  section.card h2 { margin:0 0 14px; font-size:21px; }
+  section.card h3 { margin:20px 0 8px; font-size:16px; color:#111827; }
+  ul,ol { margin:8px 0; padding-left:22px; }
+  li { margin:6px 0; }
+  code { background:#f3f4f6; padding:2px 6px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; }
+  .note { background:#f9fafb; border-left:4px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:14px; }
+  .mermaidbox { background:#f9fafb; border-radius:12px; padding:18px; overflow-x:auto; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:14px 0; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f9fafb; font-weight:600; }
+  .selfcheck { background:var(--card); border:1px dashed var(--accent); border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; }
+  .src a { color:var(--accent); word-break:break-all; }
+  footer { text-align:center; color:var(--muted); font-size:13px; margin-top:30px; }
+  .q { background:#f9fafb; border-radius:8px; padding:12px 16px; margin:10px 0; }
+  .q .a { color:var(--green); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🧠 大模型的上下文（LLM Context）</h1>
+  <p class="sub">个人学习资料 · 概念学习资料生成器产出</p>
+  <span class="tag">第 2 份 / 共 3 份</span>
+</header>
+
+<nav class="toc">
+  <h2>📑 目录</h2>
+  <a href="#goal">1 学习目标</a>
+  <a href="#core">2 核心问题</a>
+  <a href="#explain">3 结构化解释</a>
+  <a href="#scene">4 应用案例</a>
+  <a href="#confuse">5 概念辨析</a>
+  <a href="#quiz">6 自测问题</a>
+  <a href="#src">7 参考来源</a>
+</nav>
+
+<!-- 1 学习目标 -->
+<section class="card" id="goal">
+  <span class="badge b-goal">① 学习目标</span>
+  <h2>学完你应该能</h2>
+  <ul>
+    <li><b>讲清</b> 什么是上下文窗口（context window），以及它与 token 的关系。</li>
+    <li><b>理解</b> 为什么"塞得进"≠"用得好"——上下文长度 ≠ 有效利用。</li>
+    <li><b>区分</b> 上下文（即时工作记忆）与长期记忆（memory）的不同。</li>
+  </ul>
+</section>
+
+<!-- 2 核心问题 -->
+<section class="card" id="core">
+  <span class="badge b-goal">② 核心问题</span>
+  <h2>理解上下文必须先回答的 3 个问题</h2>
+  <ol>
+    <li>什么是上下文窗口？超过它会发生什么？</li>
+    <li>为什么模型在长上下文的"中间"容易丢失重要信息？</li>
+    <li>上下文该如何"省着用"？为什么不是越塞越多越好？</li>
+  </ol>
+</section>
+
+<!-- 3 结构化解释 -->
+<section class="card" id="explain">
+  <span class="badge b-core">③ 结构化解释</span>
+  <h2>我对"上下文"的理解</h2>
+
+  <div class="note">💡 <b>我的理解一句话</b>：上下文是模型在某次推理时，<b>同时"看在眼里"的那段文本</b>——包括用户的问题、历史对话、粘贴的文档、工具返回的结果。它是模型的"临时工作记忆"，决定了模型这一次到底能利用哪些信息。</div>
+
+  <h3>核心组成：上下文窗口</h3>
+  <p>上下文窗口是一段<b>有限容量</b>的输入区，用 <code>token</code>（词元）计量。每次向模型发送的内容 + 模型要生成的回复，都必须装进这个窗口里。</p>
+  <div class="mermaidbox">
+  <pre>
+  ┌────────────────────────────────────────┐
+  │           上下文窗口 (context window)          │
+  ├──────────────┬──────────┬──────────────┤
+  │ 前置信息     │  用户/提示  │  模型回复       │
+  │ (system,    │ (prompt,  │ (response,   │
+  │  历史对话)   │  本次输入)  │  生成部分)     │
+  └──────────────┴──────────┴──────────────┘
+         ↑ 总量受 token 上限约束，超出则截断/报错
+  </pre>
+  </div>
+
+  <h3>它由什么组成</h3>
+  <ul>
+    <li><b>System 提示</b>：系统性约束（身份、规则）。</li>
+    <li><b>历史对话</b>：之前的多轮消息。</li>
+    <li><b>本次输入</b>：用户新消息、粘贴的文档。</li>
+    <li><b>工具结果</b>：Agent 调用工具后返回的数据。</li>
+    <li><b>待生成部分</b>：模型将要输出的内容也要占用窗口。</li>
+  </ul>
+
+  <h3>关键真相：长 ≠ 好用</h3>
+  <p>研究《Lost in the Middle》发现，模型对上下文信息的利用<b>并不均匀</b>：</p>
+  <ul>
+    <li>放在<b>开头</b>和<b>结尾</b>的信息，最容易命中。</li>
+    <li>放在<b>中间</b>的信息，即使模型号称"支持长上下文"，也更容易被忽略（性能显著下降）。</li>
+  </ul>
+  <div class="note">⚠️ <b>所以实战中</b>：重要信息要么放最前（system/开头），要么放最后；不要指望把关键内容埋在长文档中间——这与直觉相反，是最容易踩的坑。</div>
+</section>
+
+<!-- 4 应用案例 -->
+<section class="card" id="scene">
+  <span class="badge b-scene">④ 应用案例</span>
+  <h2>一个具体场景：交给 Agent 一份 50 页合同</h2>
+  <p>假设你让 Agent 审核一份长合同，这正好暴露"上下文"的取舍：</p>
+  <ol>
+    <li>合同全文塞进上下文 → 可能撑爆窗口，或让关键条款"迷失在中间"。</li>
+    <li>更稳的做法：<b>先检索</b>（RAG）出和"违约责任"相关的那几段，只把最相关的段落 + 你的问题放进去。</li>
+    <li>关键结论放<b>上下文末尾</b>（贴近提问），让模型更容易命中。</li>
+  </ol>
+  <p>这正是"上下文工程"的意义：<b>不是塞更多，而是塞得准、放对位置</b>。</p>
+</section>
+
+<!-- 5 概念辨析 -->
+<section class="card" id="confuse">
+  <span class="badge b-confuse">⑤ 概念辨析</span>
+  <h2>容易混淆的地方</h2>
+  <table>
+    <tr><th>混淆项</th><th>它 ≠ 什么</th><th>边界在哪</th></tr>
+    <tr><td><b>上下文 vs 长期记忆</b></td><td>上下文不是"记住的所有事"</td><td>上下文=当前这次推理可见的临时输入；记忆=跨会话持久保存的状态</td></tr>
+    <tr><td><b>上下文长度 vs 有效利用</b></td><td>窗口大 ≠ 模型善于用长内容</td><td>中间易丢失，需把关键信息放头/尾或先检索</td></tr>
+    <tr><td><b>上下文 vs 提示（prompt）</b></td><td>prompt 只是上下文的一部分</td><td>prompt=你写的指令；上下文=含 prompt、历史、工具结果在内的全部输入</td></tr>
+    <tr><td><b>上下文 vs 训练数据</b></td><td>不是模型"学过的一切"</td><td>训练数据是模型参数里的知识；上下文是每次对话临时注入的</td></tr>
+  </table>
+  <div class="note">⚠️ <b>使用边界</b>：上下文是<b>易失的、有容量上限的</b>。要记住的事实应落到"记忆"或外部存储（如文件、数据库），不能只依赖上下文。</div>
+</section>
+
+<!-- 6 自测问题 -->
+<section class="card" id="quiz">
+  <span class="badge b-core">⑥ 自测问题</span>
+  <h2>检验是否真懂</h2>
+  <div class="q"><b>Q1</b> 什么是上下文窗口，用什么计量？<div class="a">✔ 模型单次推理可见的输入区，用 token 计量，有容量上限。</div></div>
+  <div class="q"><b>Q2</b> 《Lost in the Middle》的核心发现是什么？<div class="a">✔ 模型对上下文开头和结尾的信息利用最好，中间的信息最容易被忽略，即使支持长上下文。</div></div>
+  <div class="q"><b>Q3</b> 上下文和"长期记忆"有什么不同？<div class="a">✔ 上下文是当前推理的临时输入，易失；记忆是跨会话持久保存的状态。</div></div>
+  <div class="q"><b>Q4</b> 给 Agent 塞长文档时，关键信息应该怎么放？<div class="a">✔ 放开头或末尾，或先用检索筛出最相关段落，避免埋在长内容中间。</div></div>
+</section>
+
+<!-- 7 参考来源 -->
+<section class="card" id="src">
+  <span class="badge b-goal">⑦ 参考来源</span>
+  <h2>可核查的资料来源</h2>
+  <ul class="src">
+    <li>Liu 等《Lost in the Middle: How Language Models Use Long Contexts》(arXiv 2307.03172) — 长上下文利用的关键研究 <br><a href="https://arxiv.org/abs/2307.03172">https://arxiv.org/abs/2307.03172</a></li>
+    <li>Anthropic《Building effective agents》— 说明上下文/工具如何支持 Agent 决策 <br><a href="https://www.anthropic.com/engineering/building-effective-agents">https://www.anthropic.com/engineering/building-effective-agents</a></li>
+  </ul>
+  <div class="selfcheck">✅ <b>来源核查记录</b>：以上链接已逐条打开核实（arXiv 论文页、Anthropic 官方博客），用于佐证"长上下文中间易丢失信息"等观点。未使用被拦截（Cloudflare/region-limited）或伪造的链接。</div>
+</section>
+
+<footer>个人作业 1 · 概念学习资料生成器 · 由 erizo0311 生成 · 2026-09-07</footer>
+</div>
+</body>
+</html>

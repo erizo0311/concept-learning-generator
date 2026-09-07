@@ -1,0 +1,77 @@
+# ============================
+# 一、敏感信息 / 凭据（必须排除）
+# ============================
+.env
+.env.*
+*.env
+!*.env.example
+
+# 令牌 / 密钥 / 证书
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials.json
+credentials.yaml
+secrets.json
+secret*.json
+*.secret
+gh_token.txt
+
+# 云服务凭据（示例）
+.aws/
+.gcloud/
+azure_cred*.json
+
+# 本地工作目录里的 token/日志（务必排除）
+gh_auth.log
+do_*.sh
+do_*.cmd
+api_upload.py
+diagnose.py
+check_token.sh
+gh_token.*
+
+# ============================
+# 二、Python
+# ============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+venv/
+env/
+.env/
+.venv/
+.ipynb_checkpoints/
+
+# ============================
+# 三、IDE / 编辑器
+# ============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# ============================
+# 四、操作系统
+# ============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============================
+# 五、临时文件 / 日志
+# ============================
+*.log
+*.tmp
+*.temp
+.workbuddy/tasks/

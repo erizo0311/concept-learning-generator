@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人学习资料：Skill（技能/能力）</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --card: #ffffff; --ink: #1f2328; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #eff6ff; --line: #e5e7eb;
+    --green: #059669; --orange: #d97706; --red: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.hero { background:linear-gradient(135deg,#059669,#10b981); color:#fff; padding:36px 30px; border-radius:16px; margin-bottom:28px; }
+  header.hero h1 { margin:0 0 8px; font-size:30px; }
+  header.hero p.sub { margin:0; opacity:.92; font-size:15px; }
+  header.hero .tag { display:inline-block; background:rgba(255,255,255,.22); padding:4px 12px; border-radius:999px; font-size:13px; margin-top:14px; }
+  nav.toc { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin-bottom:28px; }
+  nav.toc h2 { margin:0 0 10px; font-size:15px; color:var(--muted); }
+  nav.toc a { display:inline-block; margin:4px 6px 4px 0; padding:4px 12px; background:var(--accent-soft); color:var(--accent); border-radius:999px; font-size:13px; text-decoration:none; }
+  section.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin-bottom:22px; }
+  .badge { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12px; font-weight:600; margin-bottom:12px; }
+  .b-goal{background:#eff6ff;color:#2563eb;} .b-core{background:#ecfdf5;color:#059669;}
+  .b-scene{background:#fffbeb;color:#d97706;} .b-confuse{background:#fef2f2;color:#dc2626;}
+  section.card h2 { margin:0 0 14px; font-size:21px; }
+  section.card h3 { margin:20px 0 8px; font-size:16px; color:#111827; }
+  ul,ol { margin:8px 0; padding-left:22px; }
+  li { margin:6px 0; }
+  code { background:#f3f4f6; padding:2px 6px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; }
+  .note { background:#f9fafb; border-left:4px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:14px; }
+  .mermaidbox { background:#f9fafb; border-radius:12px; padding:18px; overflow-x:auto; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:14px 0; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f9fafb; font-weight:600; }
+  .selfcheck { background:var(--card); border:1px dashed var(--accent); border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; }
+  .src a { color:var(--accent); word-break:break-all; }
+  footer { text-align:center; color:var(--muted); font-size:13px; margin-top:30px; }
+  .q { background:#f9fafb; border-radius:8px; padding:12px 16px; margin:10px 0; }
+  .q .a { color:var(--green); margin-top:6px; }
+  pre.codeblock { background:#1f2937; color:#e5e7eb; padding:16px; border-radius:8px; overflow-x:auto; font-size:13px; line-height:1.5; }
+  pre.codeblock code { background:none; color:inherit; padding:0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>🛠️ Skill（技能）</h1>
+  <p class="sub">个人学习资料 · 概念学习资料生成器产出</p>
+  <span class="tag">第 3 份 / 共 3 份</span>
+</header>
+
+<nav class="toc">
+  <h2>📑 目录</h2>
+  <a href="#goal">1 学习目标</a>
+  <a href="#core">2 核心问题</a>
+  <a href="#explain">3 结构化解释</a>
+  <a href="#scene">4 应用案例</a>
+  <a href="#confuse">5 概念辨析</a>
+  <a href="#quiz">6 自测问题</a>
+  <a href="#src">7 参考来源</a>
+</nav>
+
+<!-- 1 学习目标 -->
+<section class="card" id="goal">
+  <span class="badge b-goal">① 学习目标</span>
+  <h2>学完你应该能</h2>
+  <ul>
+    <li><b>说清</b> Skill 是什么——把一段"可复用经验"打包成能被 AI 调用的规范。</li>
+    <li><b>理解</b> Skill 的机制：一个条目 + 一套指令 + 用途说明，是如何被加载和执行的。</li>
+    <li><b>区分</b> Skill 与"一次性提示词"、"普通工具"、"上下文"的关系。</li>
+  </ul>
+</section>
+
+<!-- 2 核心问题 -->
+<section class="card" id="core">
+  <span class="badge b-goal">② 核心问题</span>
+  <h2>理解 Skill 必须先回答的 3 个问题</h2>
+  <ol>
+    <li>Skill 到底是什么，它解决什么问题？</li>
+    <li>一个 Skill 通常存在哪、由哪几部分组成？</li>
+    <li>它和"每次重写一遍提示词"相比，价值在哪？</li>
+  </ol>
+</section>
+
+<!-- 3 结构化解释 -->
+<section class="card" id="explain">
+  <span class="badge b-core">③ 结构化解释</span>
+  <h2>我对 Skill 的理解</h2>
+
+  <div class="note">💡 <b>我的理解一句话</b>：Skill 是把「一件我经常要做的、有固定方法的事」<b>沉淀成一份规范性文档</b>，让 AI 下次遇到同类任务时照着做，不用我每次重新教一遍。它本质上是一种<b>可复用、可积累的任务知识</b>。</div>
+
+  <h3>Skill 解决什么问题</h3>
+  <p>假设你经常要"生成一份学习资料"：</p>
+  <ul>
+    <li><b>没有 Skill</b>：每次都要重新描述"要哪些模块、怎么组织、来源怎么核查"——又长又容易漏。</li>
+    <li><b>有了 Skill</b>：把这些要求写进一个 Skill，之后只需说"用这个 Skill 学一下 XX"，AI 自动按流程走。</li>
+  </ul>
+
+  <h3>一个 Skill 由什么组成（以本作业为例）</h3>
+  <p>本作业目录 <code>.workbuddy/skills/concept-learning-generator/SKILL.md</code> 就是一个典型 Skill：</p>
+  <table>
+    <tr><th>组成部分</th><th>作用</th><th>本项目的例子</th></tr>
+    <tr><td><b>YAML 元数据</b></td><td>声明名字 + 用途，供系统识别与调用</td><td><code>name</code> / <code>description</code></td></tr>
+    <tr><td><b>适用场景</b></td><td>说明"什么时候该用我"</td><td>想快速吃透一个陌生概念时</td></tr>
+    <tr><td><b>输入信息</b></td><td>说明需要用户提供什么</td><td>概念名 + 可选背景/难度</td></tr>
+    <tr><td><b>生成步骤 / 输出结构</b></td><td>规定产出什么、按什么格式</td><td>7 大模块 → HTML</td></tr>
+    <tr><td><b>资料来源要求 + 自检</b></td><td>约束真实性与质量</td><td>来源必须可核查，禁止伪造</td></tr>
+  </table>
+
+  <h3>Skill 是如何被"执行"的（我的理解）</h3>
+  <div class="mermaidbox">
+  <pre>
+  你：用 XX Skill 学习「概念」
+        ↓
+  ① 系统读取 .workbuddy/skills/XX/SKILL.md
+        ↓
+  ② 把 SKILL.md 里的规范「注入」给 AI（成为上下文的一部分）
+        ↓
+  ③ AI 按里面的步骤/结构/自检要求执行
+        ↓
+  ④ 产出符合规范的成果（本例=一份 HTML 学习资料）
+  </pre>
+  </div>
+  <p>注意：Skill 本身是<b>静态文档 + 触发机制</b>，真正的"智能"由背后的 AI（Agent）承担——这正是三份资料的联动点。</p>
+
+  <div class="note">⚙️ <b>关键点</b>：一个好的 Skill 要<b>通用、可复用</b>。它描述的是"一类任务的通用方法"，而不是"某一次正好这样写"——所以它能接住任意新概念、新任务，而不是写死成一次性提示词。</div>
+</section>
+
+<!-- 4 应用案例 -->
+<section class="card" id="scene">
+  <span class="badge b-scene">④ 应用案例</span>
+  <h2>一个具体场景：把"生成学习资料"变成 Skill</h2>
+  <p>在 WorkBuddy 里：</p>
+  <ol>
+    <li>我在仓库里建了 <code>concept-learning-generator</code> 这个 Skill。</li>
+    <li>下次我说"帮我把这个 Skill 生成的学习资料做成网页"，或"用这个 Skill 学一下 <b>Transformer</b>"。</li>
+    <li>AI 读到 SKILL.md → 按 7 大模块 + 真实来源 + 自检要求，自动产出对应学习资料。</li>
+  </ol>
+  <p>价值：<b>一次沉淀、反复使用</b>。同样的流程无论学"Agent"还是"Transformer"都成立，无需重写。</p>
+</section>
+
+<!-- 5 概念辨析 -->
+<section class="card" id="confuse">
+  <span class="badge b-confuse">⑤ 概念辨析</span>
+  <h2>容易混淆的地方</h2>
+  <table>
+    <tr><th>混淆项</th><th>它 ≠ 什么</th><th>边界在哪</th></tr>
+    <tr><td><b>Skill vs 一次性提示词</b></td><td>Skill 不是"这次跟我说的那句话"</td><td>提示词是一次性的；Skill 是<b>可复用、可沉淀</b>的规范文档</td></tr>
+    <tr><td><b>Skill vs 工具(Tool)</b></td><td>Skill 不是外部函数/API</td><td>工具是能调用的外部能力；Skill 是"怎么做某类事"的方法论</td></tr>
+    <tr><td><b>Skill vs 上下文</b></td><td>Skill 不是执行时的临时输入</td><td>Skill 是持久资产；上下文是某次推理临时注入的输入。真要用 Skill，需要把它的内容<b>放进上下文</b>才能生效</td></tr>
+    <tr><td><b>Skill vs 文档/知识库</b></td><td>Skill 不只是资料</td><td>Skill 强在<b>可执行的方法流程</b>；纯知识库偏信息，Skill 偏"怎么做"</td></tr>
+  </table>
+  <div class="note">⚠️ <b>使用边界</b>：Skill 要可持续复用才有价值，一件事只做一次就不必做成 Skill。它依赖背后有能读懂并执行它的 AI（Agent），且运行时要借助上下文承载。</div>
+</section>
+
+<!-- 6 自测问题 -->
+<section class="card" id="quiz">
+  <span class="badge b-core">⑥ 自测问题</span>
+  <h2>检验是否真懂</h2>
+  <div class="q"><b>Q1</b> Skill 本质上是"什么东西"？<div class="a">✔ 把一类可复用任务的方法沉淀成规范文档，让 AI 下次照着做。</div></div>
+  <div class="q"><b>Q2</b> 一个 Skill 文件通常有哪两大部分？<div class="a">✔ YAML 元数据（name/description）+ 正文规范（场景/输入/步骤/输出/来源/自检）。</div></div>
+  <div class="q"><b>Q3</b> 为什么说 Skill 是一次性的提示词不够用？<div class="a">✔ 提示词每次都要重写、容易遗漏；Skill 一次沉淀、反复复用，且可校准更新。</div></div>
+  <div class="q"><b>Q4</b> 在 WorkBuddy 里，Skill 需要放进哪里才能被执行？<div class="a">✔ 需放进 AI 的上下文（运行时被读取/注入）才能生效；静态存在磁盘上只是待用资产。</div></div>
+</section>
+
+<!-- 7 参考来源 -->
+<section class="card" id="src">
+  <span class="badge b-goal">⑦ 参考来源</span>
+  <h2>可核查的资料来源</h2>
+  <ul class="src">
+    <li>WorkBuddy 官方文档《WorkBuddy 简介》— 理解 WorkBuddy 如何加载 Skill、执行任务 <br><a href="https://www.workbuddy.cn/docs/workbuddy/Overview">https://www.workbuddy.cn/docs/workbuddy/Overview</a></li>
+    <li>Anthropic《Building effective agents》— 说明"规范/工具"如何提升 Agent 工作效率 <br><a href="https://www.anthropic.com/engineering/building-effective-agents">https://www.anthropic.com/engineering/building-effective-agents</a></li>
+  </ul>
+  <div class="selfcheck">✅ <b>来源核查记录</b>：以上链接已逐条打开核实（WorkBuddy 官方文档、Anthropic 官方博客），用于佐证"Skill 如何被加载执行"与"可复用方法论的价值"。未使用被拦截或伪造的链接。</div>
+</section>
+
+<footer>个人作业 1 · 概念学习资料生成器 · 由 erizo0311 生成 · 2026-09-07</footer>
+</div>
+</body>
+</html>
