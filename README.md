@@ -83,7 +83,10 @@ WorkBuddy 会自动读取 `.workbuddy/skills/concept-learning-generator/SKILL.md
 | `learning-materials/agent.html` | Agent（智能体） | 目标/核心问题/解释/案例/辨析/自测/来源 ✅ |
 | `learning-materials/llm-context.html` | 大模型的上下文 | 目标/核心问题/解释/案例/辨析/自测/来源 ✅ |
 | `learning-materials/skill.html` | Skill（技能） | 目标/核心问题/解释/案例/辨析/自测/来源 ✅ |
+| `learning-materials/transformer.html` | Transformer（**复用性验证样例**） | 目标/核心问题/解释/案例/辨析/自测/来源 ✅ |
 | `learning-materials/concept-relationship.md` | 三概念关系 | 关系图 + 两大重点（上下文→Agent，Skill 沉淀知识）✅ |
+
+> 💡 `transformer.html` 是**复用性验证样例**：用同一个 `concept-learning-generator` Skill、未修改它的前提下，重新输入一个新概念「Transformer」自动生成——证明该 Skill 能接收任意新概念，而不是只针对三个概念写死的一次性提示词。
 
 每一份学习资料都包含作业要求的 5 项要素：
 **①个人解释 ②核心机制/组成 ③具体应用场景 ④易混淆问题/使用边界 ⑤可核查来源链接**。
