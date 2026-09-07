@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个人学习资料：Transformer</title>
+<style>
+  :root {
+    --bg: #f7f8fa; --card: #ffffff; --ink: #1f2328; --muted: #6b7280;
+    --accent: #2563eb; --accent-soft: #eff6ff; --line: #e5e7eb;
+    --green: #059669; --orange: #d97706; --red: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; line-height:1.75; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px 20px 80px; }
+  header.hero { background:linear-gradient(135deg,#0e7490,#06b6d4); color:#fff; padding:36px 30px; border-radius:16px; margin-bottom:28px; }
+  header.hero h1 { margin:0 0 8px; font-size:30px; }
+  header.hero p.sub { margin:0; opacity:.92; font-size:15px; }
+  header.hero .tag { display:inline-block; background:rgba(255,255,255,.22); padding:4px 12px; border-radius:999px; font-size:13px; margin-top:14px; }
+  nav.toc { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px 22px; margin-bottom:28px; }
+  nav.toc h2 { margin:0 0 10px; font-size:15px; color:var(--muted); }
+  nav.toc a { display:inline-block; margin:4px 6px 4px 0; padding:4px 12px; background:var(--accent-soft); color:var(--accent); border-radius:999px; font-size:13px; text-decoration:none; }
+  section.card { background:var(--card); border:1px solid var(--line); border-radius:14px; padding:24px 26px; margin-bottom:22px; }
+  .badge { display:inline-block; padding:3px 12px; border-radius:999px; font-size:12px; font-weight:600; margin-bottom:12px; }
+  .b-goal{background:#eff6ff;color:#2563eb;} .b-core{background:#ecfdf5;color:#059669;}
+  .b-scene{background:#fffbeb;color:#d97706;} .b-confuse{background:#fef2f2;color:#dc2626;}
+  section.card h2 { margin:0 0 14px; font-size:21px; }
+  section.card h3 { margin:20px 0 8px; font-size:16px; color:#111827; }
+  ul,ol { margin:8px 0; padding-left:22px; }
+  li { margin:6px 0; }
+  code { background:#f3f4f6; padding:2px 6px; border-radius:5px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:13px; }
+  .note { background:#f9fafb; border-left:4px solid var(--accent); padding:12px 16px; border-radius:0 8px 8px 0; margin:14px 0; font-size:14px; }
+  .mermaidbox { background:#f9fafb; border-radius:12px; padding:18px; overflow-x:auto; font-size:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; margin:14px 0; }
+  th,td { text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f9fafb; font-weight:600; }
+  .selfcheck { background:var(--card); border:1px dashed var(--accent); border-radius:10px; padding:14px 18px; margin:14px 0; font-size:14px; }
+  .src a { color:var(--accent); word-break:break-all; }
+  footer { text-align:center; color:var(--muted); font-size:13px; margin-top:30px; }
+  .q { background:#f9fafb; border-radius:8px; padding:12px 16px; margin:10px 0; }
+  .q .a { color:var(--green); margin-top:6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>⚡ Transformer</h1>
+  <p class="sub">个人学习资料 · 概念学习资料生成器产出（可复用性验证样例）</p>
+  <span class="tag">第 4 份 · 新增概念样例</span>
+</header>
+
+<nav class="toc">
+  <h2>📑 目录</h2>
+  <a href="#goal">1 学习目标</a>
+  <a href="#core">2 核心问题</a>
+  <a href="#explain">3 结构化解释</a>
+  <a href="#scene">4 应用案例</a>
+  <a href="#confuse">5 概念辨析</a>
+  <a href="#quiz">6 自测问题</a>
+  <a href="#src">7 参考来源</a>
+</nav>
+
+<!-- 1 学习目标 -->
+<section class="card" id="goal">
+  <span class="badge b-goal">① 学习目标</span>
+  <h2>学完你应该能</h2>
+  <ul>
+    <li><b>说清</b> Transformer 为什么抛弃了 RNN/CNN，只用"注意力"。</li>
+    <li><b>拆解</b> 自注意力、多头注意力、位置编码三个核心组件的作用。</li>
+    <li><b>理解</b> 为什么它是 GPT 等大模型的"地基"。</li>
+  </ul>
+</section>
+
+<!-- 2 核心问题 -->
+<section class="card" id="core">
+  <span class="badge b-goal">② 核心问题</span>
+  <h2>理解 Transformer 必须先回答的 3 个问题</h2>
+  <ol>
+    <li>注意力机制到底在"算"什么？为什么它能替代循环结构？</li>
+    <li>"多头"注意力里的"多"带来什么好处？</li>
+    <li>模型怎么知道每个词在句子里的位置？（位置编码）</li>
+  </ol>
+</section>
+
+<!-- 3 结构化解释 -->
+<section class="card" id="explain">
+  <span class="badge b-core">③ 结构化解释</span>
+  <h2>我对 Transformer 的理解</h2>
+
+  <div class="note">💡 <b>我的理解一句话</b>：Transformer 是一种<b>完全不靠循环（RNN）和卷积（CNN）</b>的神经网络架构——它让序列里每一个词，都<b>直接和所有其他词"相互关注"</b>，从而并行、高效地建模全局依赖。它是一切的"注意力聚在一起就够用了"。</div>
+
+  <h3>核心机制：从 RNN 到"全关注"</h3>
+  <p>过去的 RNN 要一个词一个词顺序读，处理长句子慢且难并行。Transformer 的想法是：<b>让每个词用自己的"查询"去匹配其他词的"键"，再按匹配度加权汇总它们的"值"</b>——这就是自注意力（Self-Attention）。</p>
+  <div class="mermaidbox">
+  <pre>
+  输入: "猫 追 老鼠"
+           ↓
+  ① 每个词 → 变成 查询Q / 键K / 值V 三个向量
+           ↓
+  ② 用 Q 去匹配所有词的 K，得到"注意力权重"
+     (谁的权重大 = 这个词对当前词越重要)
+           ↓
+  ③ 按权重加权汇总各词的 V → 当前词的上下文表示
+           ↓
+  ④ 多头注意力: 多套 Q/K/V 并行，捕捉不同关系
+           ↓
+  ⑤ 位置编码: 给每个词补上"它排在第几位"的信号
+  </pre>
+  </div>
+
+  <h3>由什么组成</h3>
+  <table>
+    <tr><th>组件</th><th>作用</th><th>解决什么问题</th></tr>
+    <tr><td><b>自注意力 (Self-Attention)</b></td><td>词与词之间直接建立依赖</td><td>替代 RNN 的顺序依赖，可并行</td></tr>
+    <tr><td><b>多头注意力 (Multi-Head)</b></td><td>多套注意力并行，各学一种"关系"</td><td>一个词可能同时与语法/语义等多种东西相关</td></tr>
+    <tr><td><b>位置编码 (Positional Encoding)</b></td><td>告诉模型每个词的位置信息</td><td>自注意力本身不区分先后顺序，需要补位置</td></tr>
+    <tr><td><b>前馈网络 (FFN)</b></td><td>对每个词独立做非线性变换</td><td>增加表达能力</td></tr>
+    <tr><td><b>Encoder-Decoder 结构</b></td><td>编码输入、解码输出</td><td>用于序列到序列任务（如翻译）</td></tr>
+  </table>
+
+  <div class="note">⚙️ <b>关键点</b>：论文标题就叫《Attention Is All You Need》——强调只要注意力机制就足够，完全去掉循环与卷积。这带来了<b>更高的并行度</b>（训练更快）和<b>更强的全局建模能力</b>。</div>
+</section>
+
+<!-- 4 应用案例 -->
+<section class="card" id="scene">
+  <span class="badge b-scene">④ 应用案例</span>
+  <h2>一个具体场景：大语言模型（GPT 家族）</h2>
+  <p>GPT、BERT、Claude 这些大模型的底层都是 Transformer 的变体：</p>
+  <ul>
+    <li><b>GPT</b>：只用 Transformer 的 <b>Decoder</b> 部分，做自回归生成（一个词接一个词产生）。</li>
+    <li><b>BERT</b>：只用 <b>Encoder</b> 部分，做双向理解（如"这句话是正面还是负面"）。</li>
+    <li><b>训练快、可扩展</b>：得益于并行化，才能靠海量数据和算力"堆"出如今的模型能力。</li>
+  </ul>
+  <p>可以说：<b>没有 Transformer，就没有今天的大模型时代。</b></p>
+</section>
+
+<!-- 5 概念辨析 -->
+<section class="card" id="confuse">
+  <span class="badge b-confuse">⑤ 概念辨析</span>
+  <h2>容易混淆的地方</h2>
+  <table>
+    <tr><th>混淆项</th><th>它 ≠ 什么</th><th>边界在哪</th></tr>
+    <tr><td><b>Transformer vs 注意力机制</b></td><td>Transformer 不是"注意力"这个词本身</td><td>注意力是一种计算方式；Transformer 是<b>用注意力搭建的完整网络架构</b></td></tr>
+    <tr><td><b>Transformer vs RNN/LSTM</b></td><td>不是"加强版的 RNN"</td><td>RNN 顺序处理、难并行；Transformer<b>全并行</b>、直接全局依赖</td></tr>
+    <tr><td><b>Transformer vs 大模型(GPT)</b></td><td>大模型不是 Transformer 的另一名字</td><td>Transformer 是<b>架构</b>；GPT 是<b>基于该架构 + 海量数据训练出的模型</b></td></tr>
+    <tr><td><b>自注意力 vs 传统注意力</b></td><td>不是一回事</td><td>自注意力是"序列自己关注自己"；传统注意力是"跨序列对齐"</td></tr>
+  </table>
+  <div class="note">⚠️ <b>使用边界</b>：Transformer 擅长<b>需要捕捉长距离依赖、可并行</b>的场景（文本、语音、序列数据）。若数据量小或任务简单，较浅模型可能就够，不必强行堆大规模 Transformer。</div>
+</section>
+
+<!-- 6 自测问题 -->
+<section class="card" id="quiz">
+  <span class="badge b-core">⑥ 自测问题</span>
+  <h2>检验是否真懂</h2>
+  <div class="q"><b>Q1</b> 自注意力的计算流程大致是什么？<div class="a">✔ 每个词生成 Q/K/V → 用 Q 匹配所有词的 K 得权重 → 按权重加权汇总 V。</div></div>
+  <div class="q"><b>Q2</b> 为什么 Transformer 比 RNN 更好并行？<div class="a">✔ 它不按顺序处理词，而是让序列中所有词同时相互关注，天然可并行。</div></div>
+  <div class="q"><b>Q3</b> 为什么要加位置编码？<div class="a">✔ 自注意力本身不携带顺序信息，需用位置编码告诉模型每个词的位置。</div></div>
+  <div class="q"><b>Q4</b> GPT 用的是 Transformer 的哪部分？<div class="a">✔ Decoder（解码器）部分，做自回归生成。</div></div>
+</section>
+
+<!-- 7 参考来源 -->
+<section class="card" id="src">
+  <span class="badge b-goal">⑦ 参考来源</span>
+  <h2>可核查的资料来源</h2>
+  <ul class="src">
+    <li>Vaswani 等《Attention Is All You Need》(arXiv 1706.03762) — Transformer 开山论文 <br><a href="https://arxiv.org/abs/1706.03762">https://arxiv.org/abs/1706.03762</a></li>
+  </ul>
+  <div class="selfcheck">✅ <b>来源核查记录</b>：链接已逐条打开核实（arXiv 论文页），用于佐证"Transformer 仅基于注意力、摒弃循环与卷积"等核心观点。未使用被拦截/伪造的链接。<br>
+  ✅ <b>复用性验证</b>：本份资料由同一个 <code>concept-learning-generator</code> Skill 流程生成，未修改 Skill 本体——证明它能接收"Transformer"这个新概念，而非一次性提示词。</div>
+</section>
+
+<footer>个人作业 1 · 概念学习资料生成器 · 由 erizo0311 生成 · 2026-09-07（可复用性验证样例）</footer>
+</div>
+</body>
+</html>
